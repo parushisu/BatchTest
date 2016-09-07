@@ -7,14 +7,16 @@ import jp.co.test.batch.resource.TestResource02;
 public class BatchTest02 extends BatchTest00 {
 
 	public int execute() {
+		init();
+
 	    try (TestResource02 test = new TestResource02()) {
 	    	test.execute("test");
-	        System.out.println(test);
+	    	log.info(test.toString());
 	    } catch (IOException | NullPointerException ex) {
-	    	System.err.println(ex.getMessage());
+	    	log.error(ex.getMessage());
 	    }
 
-	    System.out.println("BatchTest02 bye!");
+	    log.info("BatchTest02 bye!");
 
 		return 0;
 	}

@@ -3,6 +3,8 @@ package jp.co.test.batch.resource;
 import java.io.Closeable;
 import java.io.IOException;
 
+import jp.co.test.batch.utils.BatchTestLog;
+
 public class TestResource02 implements Closeable {
 
 //	private String key = null;
@@ -12,7 +14,9 @@ public class TestResource02 implements Closeable {
 //	}
 
     public void close() {
-        System.out.println("close!");
+//		System.out.println("close!");
+		BatchTestLog log = BatchTestLog.getInstance();
+		log.debug("close!");
     }
 
     public String toString() {

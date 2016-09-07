@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import jp.co.test.batch.utils.BatchTestException;
+import jp.co.test.batch.utils.BatchTestLog;
 import jp.co.test.batch.utils.BatchTestProp;
 
 public class BatchTestDB implements Closeable {
@@ -20,7 +21,9 @@ public class BatchTestDB implements Closeable {
     		ex.printStackTrace();
     	}
 
-        System.out.println("close!");
+//        System.out.println("close!");
+		BatchTestLog log = BatchTestLog.getInstance();
+		log.debug("close!");
     }
 
     public String toString() {

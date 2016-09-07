@@ -24,28 +24,30 @@ public class BatchTest04 extends BatchTest00 {
 	}
 
 	public int execute() {
+		init();
+
 		List<String> list = Arrays.asList("C", "C++", "Java", "Scala", "Ruby");
 
-	    System.out.println("##### Stream #####");
+		log.info("##### Stream #####");
 
 	    long count = list.stream()
                 .filter(s -> s.startsWith("C"))
                 .mapToInt(s -> s.length())
                 .sum();
-	    System.out.println("Test1 : count = " + count);
+	    log.info("Test1 : count = " + count);
 
 	    String[] words = Stream.of("C", "C++", "Java", "Scala", "Ruby")
                 .map(s -> s.toUpperCase())
                 .sorted()
                 .toArray(String[]::new);
-	    System.out.println("Test2 : words = " + Arrays.asList(words));
+	    log.info("Test2 : words = " + Arrays.asList(words));
 
 	    IntSummaryStatistics stats = IntStream.generate(() -> (int)(Math.random() * 100))
                 .filter(n -> n >= 80)
                 .distinct()
                 .limit(3)
                 .summaryStatistics();
-	    System.out.println("Test3 : stats = " + stats);
+	    log.info("Test3 : stats = " + stats);
 
 	    List<String> fizzBuzz = IntStream.rangeClosed(1, 100)
                 .mapToObj(n ->
@@ -54,58 +56,58 @@ public class BatchTest04 extends BatchTest00 {
                         (n % 5 == 0) ? "Buzz" :
                         String.valueOf(n))
                 .collect(Collectors.toList());
-	    System.out.println("Test4 : fizzBuzz = " + fizzBuzz);
+	    log.info("Test4 : fizzBuzz = " + fizzBuzz);
 
 	    long count2 = list.parallelStream()
                 .filter(s -> s.startsWith("C"))
                 .mapToInt(s -> s.length())
                 .sum();
-	    System.out.println("Test5 : count2 = " + count2);
+	    log.info("Test5 : count2 = " + count2);
 
-	    System.out.println("\n##### Optional #####");
+	    log.info("##### Optional #####");
 
 	    Optional<String> value = getConfigValue("lang");
 	    String lang = value.orElse("en");
-	    System.out.println("Test1 : lang = " + lang);
+	    log.info("Test1 : lang = " + lang);
 
 	    Optional<String> value2 = getConfigValue("lang2");
 	    String lang2 = value2.orElseGet(() -> {
 	        // more complicated logic
 	        return "en";
 	    });
-	    System.out.println("Test2 : lang2 = " + lang2);
+	    log.info("Test2 : lang2 = " + lang2);
 
 	    String lang3 = "en";
 	    Optional<String> value3 = getConfigValue("lang3");
 	    if (value3.isPresent()) {
 	        lang3 = value3.get();
 	    }
-	    System.out.println("Test3 : lang3 = " + lang3);
+	    log.info("Test3 : lang3 = " + lang3);
 
-	    System.out.println("\n##### Misc #####");
+	    log.info("##### Misc #####");
 
-	    System.out.println("Test1 : interfaceのdefault/staticメソッド");
+	    log.info("Test1 : interfaceのdefault/staticメソッド");
 
 	    String join1 = String.join(", ", "A", "B", "C");
 	    String join2 = String.join(", ", new String[]{"A", "B", "C"});
 	    String join3 = String.join(", ", Arrays.asList("A", "B", "C"));
-	    System.out.println("Test2 : join1 = " + join1 + ", join2 = " + join2 + ", join3 = " + join3);
+	    log.info("Test2 : join1 = " + join1 + ", join2 = " + join2 + ", join3 = " + join3);
 
 	    String username = "username";
 	    String password = "password";
 	    Base64.Encoder encoder = Base64.getEncoder();
 	    String original = username + ":" + password;
 	    String encoded = encoder.encodeToString(original.getBytes(StandardCharsets.UTF_8));
-	    System.out.println("Test3 : encoded = " + encoded);
+	    log.info("Test3 : encoded = " + encoded);
 
-	    System.out.println("Test4 : lines =");
+	    log.info("Test4 : lines =");
 	    Path path = Paths.get("/tmp/changes.log");
 	    try (Stream<String> lines = Files.lines(path)) {
-	        lines.forEach(System.out::println);
+	        lines.forEach(string -> log.info("  " + string));
 	    } catch (IOException e) {
 	    }
 
-	    System.out.println("\nBatchTest04 bye!");
+	    log.info("BatchTest04 bye!");
 
 		return 0;
 	}

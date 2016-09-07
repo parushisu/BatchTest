@@ -35,11 +35,15 @@ public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallb
     }
 
 	public void init(BatchTestDB db) throws BatchTestException {
+		super.init();
+
 		BatchTestMessage msg = BatchTestMessage.getInstance();
     	String message = msg.getString("app.menu.001");
-    	System.out.println(message);
+//    	System.out.println(message);
+    	log.info(message);
 
-    	System.out.println(db);
+//    	System.out.println(db);
+    	log.info(db.toString());
 
     	db.setCallbacks(this);
 
@@ -55,19 +59,23 @@ public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallb
 	    	String sql = db.getSQL("sql.sel.001");
 
 	    	int cnt = db.select(sql);
-	    	System.out.println("Data Count = " + cnt);
+//	    	System.out.println("Data Count = " + cnt);
+	    	log.debug("Data Count = " + cnt);
 
 	    	for (int i = 0; i < cnt; i++) {
 	    		HelloData data = resultList.get(i);
 	    		String carKatasiki = data.getCarKatasiki();
 	    		String carName = data.getCarName();
-	    		System.out.println(carKatasiki + ", " + carName);
+//	    		System.out.println(carKatasiki + ", " + carName);
+		    	log.debug(carKatasiki + ", " + carName);
 	    	}
 	    } catch (BatchTestException ex) {
-	    	System.err.println(ex.getMessage());
+//	    	System.err.println(ex.getMessage());
+	    	log.error(ex.getMessage());
 	    }
 
-	    System.out.println("BatchTest05 bye!");
+//	    System.out.println("BatchTest05 bye!");
+    	log.info("BatchTest05 bye!");
 
 		return 0;
 	}
