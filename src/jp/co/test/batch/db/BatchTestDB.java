@@ -21,7 +21,6 @@ public class BatchTestDB implements Closeable {
     		ex.printStackTrace();
     	}
 
-//        System.out.println("close!");
 		BatchTestLog log = BatchTestLog.getInstance();
 		log.debug("close!");
     }
