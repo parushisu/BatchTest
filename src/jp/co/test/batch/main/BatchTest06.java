@@ -1,11 +1,12 @@
 package jp.co.test.batch.main;
 
-import jp.co.test.batch.utils.BatchTestLog;
+import jp.co.hello.batch.main.HelloBatchMain;
+import jp.co.hello.batch.utils.HelloBatchLog;
 
-public class BatchTest06 extends BatchTest00 {
+public class BatchTest06 extends HelloBatchMain {
 
 	public int execute() {
-		BatchTestLog log = BatchTestLog.getInstance();
+		HelloBatchLog log = HelloBatchLog.getInstance();
 
 		log.debug("debug!!!");
 		log.info("info {}!!!", "情報");

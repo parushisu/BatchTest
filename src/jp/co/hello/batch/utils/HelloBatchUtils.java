@@ -1,6 +1,11 @@
-package jp.co.test.batch.utils;
+package jp.co.hello.batch.utils;
 
-public class BatchTestUtils {
+/**
+ * Hello Batch Framework - Utility
+ *
+ * @author palsysuser
+ */
+public class HelloBatchUtils {
 
     /**
      * サニタイズ処理

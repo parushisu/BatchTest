@@ -15,7 +15,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class BatchTest04 extends BatchTest00 {
+import jp.co.hello.batch.main.HelloBatchMain;
+
+public class BatchTest04 extends HelloBatchMain {
 
 	public interface Collection<E> extends Iterable<E> {
 	    default Stream<E> stream() {

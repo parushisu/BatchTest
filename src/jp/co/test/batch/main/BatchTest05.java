@@ -2,30 +2,31 @@ package jp.co.test.batch.main;
 
 import java.util.ArrayList;
 
-import jp.co.test.batch.bean.HelloData;
-import jp.co.test.batch.db.BatchTestDB;
-import jp.co.test.batch.utils.BatchTestException;
-import jp.co.test.batch.utils.BatchTestMessage;
+import jp.co.hello.batch.db.HelloBatchDB;
+import jp.co.hello.batch.main.HelloBatchMain;
+import jp.co.hello.batch.utils.HelloBatchException;
+import jp.co.hello.batch.utils.HelloBatchMessage;
+import jp.co.test.batch.bean.CarData;
 
-public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallbacks {
+public class BatchTest05 extends HelloBatchMain implements HelloBatchDB.MyClassCallbacks {
 
 	public static final String PROP_NAME = "jp/co/test/batch/conf/settings.properties";
 
 	int columnCount = 0;
-	ArrayList<HelloData> resultList = null;
+	ArrayList<CarData> resultList = null;
 
 	public void callbackColumnCount(int cnt) {
 		if (resultList == null) {
 			columnCount = cnt;
 
-			resultList = new ArrayList<HelloData>();
+			resultList = new ArrayList<CarData>();
 		}
 	}
 
 	public void callbackOneData(int row, int col, Object obj) {
-    	HelloData sl = null;
+    	CarData sl = null;
     	if (col == 1) {
-    		sl = new HelloData();
+    		sl = new CarData();
     		sl.setCarKatasiki(obj.toString());
     		resultList.add(sl);
     	} else if (col == 2) {
@@ -34,10 +35,10 @@ public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallb
     	}
     }
 
-	public void init(BatchTestDB db) throws BatchTestException {
+	public void init(HelloBatchDB db) throws HelloBatchException {
 		super.init();
 
-		BatchTestMessage msg = BatchTestMessage.getInstance();
+		HelloBatchMessage msg = HelloBatchMessage.getInstance();
     	String message = msg.getString("app.menu.001");
     	log.info(message);
 
@@ -49,7 +50,7 @@ public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallb
 	}
 
 	public int execute() {
-	    try (BatchTestDB db = new BatchTestDB()) {
+	    try (HelloBatchDB db = new HelloBatchDB()) {
 	    	init(db);
 
 	    	db.connect();
@@ -60,12 +61,12 @@ public class BatchTest05 extends BatchTest00 implements BatchTestDB.MyClassCallb
 	    	log.debug("Data Count = " + cnt);
 
 	    	for (int i = 0; i < cnt; i++) {
-	    		HelloData data = resultList.get(i);
+	    		CarData data = resultList.get(i);
 	    		String carKatasiki = data.getCarKatasiki();
 	    		String carName = data.getCarName();
 		    	log.debug(carKatasiki + ", " + carName);
 	    	}
-	    } catch (BatchTestException ex) {
+	    } catch (HelloBatchException ex) {
 	    	log.error(ex.getMessage());
 	    }
 

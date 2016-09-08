@@ -1,4 +1,4 @@
-package jp.co.test.batch.db;
+package jp.co.hello.batch.db;
 
 import java.io.Closeable;
 import java.sql.Connection;
@@ -8,23 +8,39 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import jp.co.test.batch.utils.BatchTestException;
-import jp.co.test.batch.utils.BatchTestLog;
-import jp.co.test.batch.utils.BatchTestProp;
+import jp.co.hello.batch.utils.HelloBatchException;
+import jp.co.hello.batch.utils.HelloBatchLog;
+import jp.co.hello.batch.utils.HelloBatchProp;
 
-public class BatchTestDB implements Closeable {
+/**
+ * Hello Batch Framework - DB
+ *
+ * @author palsysuser
+ */
+public class HelloBatchDB implements Closeable {
 
+    /**
+     * リソースをクローズする。
+     *
+     * @see java.io.Closeable#close()
+     */
     public void close() {
     	try {
     		disconnect();
-    	} catch (BatchTestException ex) {
+    	} catch (HelloBatchException ex) {
     		ex.printStackTrace();
     	}
 
-		BatchTestLog log = BatchTestLog.getInstance();
+		HelloBatchLog log = HelloBatchLog.getInstance();
 		log.debug("close!");
     }
 
+    /**
+     * オブジェクトを文字列にする。
+     *
+     * @see java.lang.Object#toString()
+     * @return オブジェクトを文字列にしたもの
+     */
     public String toString() {
         return "This is a BatchTestDB Object";
     }
@@ -40,7 +56,7 @@ public class BatchTestDB implements Closeable {
         _myClassCallbacks = myClassCallbacks;
     }
 
-    private BatchTestProp prop = null;
+    private HelloBatchProp prop = null;
 
     private String driver = null;
 	private String url = null;
@@ -49,11 +65,14 @@ public class BatchTestDB implements Closeable {
 
     private Connection conn = null;
 
-    public void init(String path) throws BatchTestException {
-//    	BatchTestProp prop = new BatchTestProp();
-    	prop = BatchTestProp.getInstance();
-
-//    	prop.loadProperties(path);
+    /**
+     * 初期化を行う。
+     *
+     * @param path 設定ファイルのパス
+     * @throws HelloBatchException
+     */
+    public void init(String path) throws HelloBatchException {
+    	prop = HelloBatchProp.getInstance();
 
     	driver = prop.getProperty("db.driver");
     	url = prop.getProperty("db.url");
@@ -61,7 +80,12 @@ public class BatchTestDB implements Closeable {
     	password = prop.getProperty("db.password");
     }
 
-    public void connect() throws BatchTestException {
+    /**
+     * DBに接続する。
+     *
+     * @throws HelloBatchException
+     */
+    public void connect() throws HelloBatchException {
     	String msg = null;
 
     	try {
@@ -72,14 +96,19 @@ public class BatchTestDB implements Closeable {
 		    conn = DriverManager.getConnection(url, user, password);	//("jdbc:oracle:thin:@192.168.0.22:1521:xe", "pmc_tool", "as54gfjo1");
     	} catch (SQLException ex) {
     		msg = ex.getMessage();
-    		throw new BatchTestException(msg);
+    		throw new HelloBatchException(msg);
     	} catch (ClassNotFoundException ex) {
     		msg = ex.getMessage();
-    		throw new BatchTestException(msg);
+    		throw new HelloBatchException(msg);
     	}
 	}
 
-    public void disconnect() throws BatchTestException {
+    /**
+     * DBの接続を解除する。
+     *
+     * @throws HelloBatchException
+     */
+    public void disconnect() throws HelloBatchException {
     	String msg = null;
 
     	if (conn == null) {
@@ -91,13 +120,20 @@ public class BatchTestDB implements Closeable {
 		    conn.close();
     	} catch (SQLException ex) {
     		msg = ex.getMessage();
-    		throw new BatchTestException(msg);
+    		throw new HelloBatchException(msg);
     	}
 
 	    conn = null;
     }
 
-	public int select(String sql) throws BatchTestException {
+	/**
+	 * クエリを実行する。
+	 *
+	 * @param sql 実行するSQL
+	 * @return 取得した件数
+	 * @throws HelloBatchException
+	 */
+	public int select(String sql) throws HelloBatchException {
 //		StringBuffer result = null;
     	String msg = null;
     	Statement stmt = null;
@@ -135,7 +171,7 @@ public class BatchTestDB implements Closeable {
 	        }
     	} catch (SQLException ex) {
     		msg = ex.getMessage();
-    		throw new BatchTestException(msg);
+    		throw new HelloBatchException(msg);
     	} finally {
 		    // 結果セットをクローズ
     		if (rset != null) {
@@ -144,7 +180,7 @@ public class BatchTestDB implements Closeable {
     				rset = null;
     			} catch (SQLException ex) {
     	    		msg = ex.getMessage();
-    	    		throw new BatchTestException(msg);
+    	    		throw new HelloBatchException(msg);
     			}
     		}
 		    // ステートメントをクローズ
@@ -154,7 +190,7 @@ public class BatchTestDB implements Closeable {
 	    			stmt = null;
     			} catch (SQLException ex) {
     	    		msg = ex.getMessage();
-    	    		throw new BatchTestException(msg);
+    	    		throw new HelloBatchException(msg);
     			}
     		}
     	}
@@ -163,6 +199,12 @@ public class BatchTestDB implements Closeable {
 	   	return row;
 	}
 
+	/**
+	 * リソースからSQLを取得する。
+	 *
+	 * @param key SQLのキー
+	 * @return キーに対応するSQL
+	 */
 	public String getSQL(String key) {
 		if (prop == null) {
 			return null;

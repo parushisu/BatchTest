@@ -1,6 +1,6 @@
 package jp.co.test.batch.bean;
 
-public class HelloData {
+public class CarData {
 
 	// CAR_KATASIKI, CAR_NAME
 	private String carKatasiki = null;

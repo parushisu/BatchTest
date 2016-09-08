@@ -5,12 +5,12 @@ public class BatchTest {
 	public static void main(String[] args) {
 		int ret = 0;
 
-//		ret = test01();
+		ret = test01();
 		ret = test02();
-//		ret = test03();
-//		ret = test04();
-//		ret = test05();
-//		ret = test06();
+		ret = test03();
+		ret = test04();
+		ret = test05();
+		ret = test06();
 
 		System.exit(ret);
 	}

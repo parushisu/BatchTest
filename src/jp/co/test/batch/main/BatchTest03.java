@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BatchTest03 extends BatchTest00 {
+import jp.co.hello.batch.main.HelloBatchMain;
+
+public class BatchTest03 extends HelloBatchMain {
 
 	/**
 	 * 数値の計算処理を行う

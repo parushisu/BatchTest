@@ -1,6 +1,8 @@
 package jp.co.test.batch.main;
 
-public class BatchTest01 extends BatchTest00 {
+import jp.co.hello.batch.main.HelloBatchMain;
+
+public class BatchTest01 extends HelloBatchMain {
 
 	public int execute() {
 		init();

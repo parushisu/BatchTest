@@ -3,14 +3,15 @@ package jp.co.test.batch.main;
 import java.io.Closeable;
 import java.io.IOException;
 
-import jp.co.test.batch.utils.BatchTestLog;
+import jp.co.hello.batch.main.HelloBatchMain;
+import jp.co.hello.batch.utils.HelloBatchLog;
 
-public class BatchTest02 extends BatchTest00 {
+public class BatchTest02 extends HelloBatchMain {
 
 	private class TestResource02 implements Closeable {
 
 	    public void close() {
-			BatchTestLog log = BatchTestLog.getInstance();
+			HelloBatchLog log = HelloBatchLog.getInstance();
 			log.debug("close!");
 	    }
 
