@@ -17,7 +17,16 @@ import jp.co.hello.batch.utils.HelloBatchProp;
  *
  * @author palsysuser
  */
-public class HelloBatchDB implements Closeable {
+public abstract class HelloBatchDB implements Closeable {
+
+	protected static final int INDEX_ORACLE = 1;
+	protected static final int INDEX_DB2 = 2;
+//	protected enum Index {
+//		INDEX_ORACLE,
+//		INDEX_DB2
+//	}
+
+	private static final String PROP_NAME = "jp/co/hello/batch/conf/db.properties";
 
     /**
      * リソースをクローズする。
@@ -56,6 +65,8 @@ public class HelloBatchDB implements Closeable {
         _myClassCallbacks = myClassCallbacks;
     }
 
+    private int index = 0;
+
     private HelloBatchProp prop = null;
 
     private String driver = null;
@@ -65,19 +76,31 @@ public class HelloBatchDB implements Closeable {
 
     private Connection conn = null;
 
+	/**
+	 * コンストラクタ
+	 *
+	 * @param index リソースのインデックス
+	 */
+	protected HelloBatchDB(int index) {
+		this.index = index;
+	}
+
     /**
      * 初期化を行う。
      *
-     * @param path 設定ファイルのパス
+	 * @param path SQL定義プロパティ・ファイルのパス
      * @throws HelloBatchException
      */
     public void init(String path) throws HelloBatchException {
-    	prop = HelloBatchProp.getInstance();
+//    	prop = HelloBatchProp.getInstance();
+    	HelloBatchProp propdb = new HelloBatchProp(PROP_NAME);
 
-    	driver = prop.getProperty("db.driver");
-    	url = prop.getProperty("db.url");
-    	user = prop.getProperty("db.user");
-    	password = prop.getProperty("db.password");
+    	driver = propdb.getProperty("db" + index + ".driver");
+    	url = propdb.getProperty("db" + index + ".url");
+    	user = propdb.getProperty("db" + index + ".user");
+    	password = propdb.getProperty("db" + index + ".password");
+
+    	prop = new HelloBatchProp(path);
     }
 
     /**
@@ -90,14 +113,11 @@ public class HelloBatchDB implements Closeable {
 
     	try {
 		    // Oracle JDBC Driverのロード
-		    Class.forName(driver);	//("oracle.jdbc.driver.OracleDriver");
+		    Class.forName(driver);
 
 		    // Oracle8iに接続
-		    conn = DriverManager.getConnection(url, user, password);	//("jdbc:oracle:thin:@192.168.0.22:1521:xe", "pmc_tool", "as54gfjo1");
-    	} catch (SQLException ex) {
-    		msg = ex.getMessage();
-    		throw new HelloBatchException(msg);
-    	} catch (ClassNotFoundException ex) {
+		    conn = DriverManager.getConnection(url, user, password);
+    	} catch (SQLException | ClassNotFoundException ex) {
     		msg = ex.getMessage();
     		throw new HelloBatchException(msg);
     	}

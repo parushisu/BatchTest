@@ -11,31 +11,44 @@ import java.util.Properties;
  */
 public class HelloBatchProp {
 
-	/** このクラスの単一インスタンス */
-	private static final HelloBatchProp prop = new HelloBatchProp();
+//	/** このクラスの単一インスタンス */
+//	private static final HelloBatchProp prop = new HelloBatchProp();
 
 	/** Properties */
 	private Properties properties = null;
 
-	/**
-	 * 単一インスタンスを取得する。
-	 *
-	 * @return HelloBatchPropのインスタンス
-	 * @throws HelloBatchException
-	 */
-	public static HelloBatchProp getInstance() throws HelloBatchException {
-		if (prop.properties == null) {
-	    	prop.loadProperties("jp/co/test/batch/conf/settings.properties");
-		}
+//	/**
+//	 * 単一インスタンスを取得する。
+//	 *
+//	 * @return HelloBatchPropのインスタンス
+//	 * @throws HelloBatchException
+//	 */
+//	public static HelloBatchProp getInstance() throws HelloBatchException {
+//		if (prop.properties == null) {
+//	    	prop.loadProperties("jp/co/test/batch/conf/settings.properties");
+//		}
+//
+//		return prop;
+//	}
 
-		return prop;
+	/**
+	 * コンストラクタ
+	 *   プロパティ・ファイルのパスが必須なので、privateとする
+	 */
+	private HelloBatchProp() {
 	}
 
 	/**
 	 * コンストラクタ
-	 *   単一インスタンスなので、privateとする
+	 *
+	 * @param path プロパティ・ファイルのパス
+	 * @throws HelloBatchException
 	 */
-	private HelloBatchProp() {}
+	public HelloBatchProp(String path) throws HelloBatchException {
+		this();
+
+		loadProperties(path);
+	}
 
 	/**
 	 * プロパティ・ファイルをロードする。
